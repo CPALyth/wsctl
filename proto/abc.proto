@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package user;
+option go_package = "./;proto";
+
+// 注册
+message RegisterRequest {
+  string nickName = 1;
+  uint32 gender = 2;
+  string mobile = 3;
+  string password = 4;
+}
+message RegisterResponse {
+  message Result {
+    uint64 id = 1;
+  }
+  string errorCode=1;
+  string errorMsg=2;
+  Result result=3;
+}
+
+// 登录
+message LoginRequest {
+  string mobile = 1;
+  string password=2;
+}
+message LoginResponse {
+  message Result {
+    string token=1;
+  }
+  string errorCode=1;
+  string errorMsg=2;
+  Result result=3;
+}
+
+
+// 用户信息
+message InfoRequest {
+  uint64 id=1;
+}
+message InfoResponse {
+  message Result {
+    string nickName=1;
+    uint32 gender=2;
+    string mobile=3;
+  }
+  string errorCode=1;
+  string errorMsg=2;
+  Result result=3;
+}
+
+service User {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc UserInfo(InfoRequest) returns (InfoResponse);
+}
